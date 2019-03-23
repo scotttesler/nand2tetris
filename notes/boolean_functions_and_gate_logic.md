@@ -20,8 +20,8 @@ Definition: (X NAND Y) = NOT(X AND Y)
 
 #### NOT represented with NAND
 
-NOT(x) = (x NAND x)
+NOT(x) = NAND(x, x)
 
 #### AND represented with NAND
 
-(x AND y) = NOT(x NAND y)
+AND(x, y) = NOT(NAND(x, y))
