@@ -1,6 +1,8 @@
 # Arithmetic Logical Unit (ALU) from Elementary Logic Gates
 
-## Adders
+---
+
+# Adders
 
 **Half Adder:** Adds 2 bits.
 
@@ -8,9 +10,9 @@
 
 **Adder:** Adds 2 numbers.
 
-## Negative Numbers
+# Negative Numbers
 
-### Two's Complement
+## Two's Complement
 
 With a number `x` in `n` bits,
 
@@ -27,3 +29,7 @@ NOTES:
 - Positive numbers will always have a 0 in the MSB.
 
   Negative numbers will always have a 1 in the MSB.
+
+# ALU
+
+<img alt="ALU" src="https://i.imgur.com/7WaWWY9.png" width="400 px" />
