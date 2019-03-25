@@ -2,7 +2,7 @@
 
 ## Boolean Identities
 
-<img alt="Boolean identities" src="https://imgur.com/rUs5D5J.png" />
+<img alt="Boolean identities" src="https://imgur.com/rUs5D5J.png" width="400px" />
 
 ## Constructing a boolean function from a truth table.
 
@@ -10,13 +10,13 @@ You construct a Disjunctive Normal Form formula ([video](https://www.coursera.or
 
 ## Elementary Logic Gates
 
-<img alt="elementary logic gates" src="https://i.imgur.com/m6rAR1R.png" />
+<img alt="elementary logic gates" src="https://i.imgur.com/m6rAR1R.png" width="400px" />
 
 ### NAND
 
 Definition: (X NAND Y) = NOT(X AND Y)
 
-<img alt="NAND gate" src="https://i.imgur.com/gLKYxiV.png" />
+<img alt="NAND gate" src="https://i.imgur.com/gLKYxiV.png" width="350px" />
 
 #### NOT represented with NAND
 

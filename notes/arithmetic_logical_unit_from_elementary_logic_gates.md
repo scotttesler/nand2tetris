@@ -7,3 +7,23 @@
 **Full Adder:** Adds 3 bits (used to add 2 bits and a carry).
 
 **Adder:** Adds 2 numbers.
+
+## Negative Numbers
+
+### Two's Complement
+
+With a number `x` in `n` bits,
+
+- invert all `n` bits and add 1.
+
+or
+
+- do 2<sup>n</sup> - x.
+
+<img alt="Two's Complement" src="https://i.imgur.com/OER3VDf.png" width="350px" />
+
+NOTES:
+
+- Positive numbers will always have a 0 in the MSB.
+
+  Negative numbers will always have a 1 in the MSB.
