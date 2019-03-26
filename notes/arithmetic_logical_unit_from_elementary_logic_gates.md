@@ -33,3 +33,7 @@ NOTES:
 # ALU
 
 <img alt="ALU" src="https://i.imgur.com/7WaWWY9.png" width="400 px" />
+
+## The Hack ALU
+
+<img alt="The Hack ALU" src="https://i.imgur.com/20NTHLm.png" width="400 px" />
