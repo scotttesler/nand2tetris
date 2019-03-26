@@ -37,3 +37,7 @@ NOTES:
 ## The Hack ALU
 
 <img alt="The Hack ALU" src="https://i.imgur.com/20NTHLm.png" width="400 px" />
+
+Control bits explanation:
+
+<img alt="The Hack ALU Control Bits Explanation" src="https://i.imgur.com/sehxPYJ.png" width="400 px" />
