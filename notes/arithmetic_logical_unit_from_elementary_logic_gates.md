@@ -38,6 +38,10 @@ NOTES:
 
 <img alt="The Hack ALU" src="https://i.imgur.com/20NTHLm.png" width="400 px" />
 
-Control bits explanation:
+Input control bits explanation:
 
-<img alt="The Hack ALU Control Bits Explanation" src="https://i.imgur.com/sehxPYJ.png" width="400 px" />
+<img alt="The Hack ALU Input Control Bits Explanation" src="https://i.imgur.com/sehxPYJ.png" width="400 px" />
+
+Output control bits explanation:
+
+<img alt="The Hack ALU Output Control Bits Explanation" src="https://i.imgur.com/afrl1uT.png" width="400 px" />

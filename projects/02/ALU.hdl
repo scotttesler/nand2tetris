@@ -42,23 +42,29 @@ CHIP ALU {
         ng; // 1 if (out < 0),  0 otherwise
 
     PARTS:
-        And16 (a[0..15]=false, b[0..15]=false, out=x0);
-        And16 (a[0..15]=false, b[0..15]=false, out=y0);
+        // Zero x, y?
+        Mux16(a=x, b=false, sel=zx, out=x1);
+        Mux16(a=y, b=false, sel=zy, out=y1);
 
-        DMux (in=x[0], sel=zx, a=meh0, b=x0[0]);
-        DMux (in=x[1], sel=zx, a=meh, b=x0[1]);
-        DMux (in=x[2], sel=zx, a=meh, b=x0[2]);
-        DMux (in=x[3], sel=zx, a=meh, b=x0[3]);
-        DMux (in=x[4], sel=zx, a=meh, b=x0[4]);
-        DMux (in=x[5], sel=zx, a=meh, b=x0[5]);
-        DMux (in=x[6], sel=zx, a=meh, b=x0[6]);
-        DMux (in=x[7], sel=zx, a=meh, b=x0[7]);
-        DMux (in=x[8], sel=zx, a=meh, b=x0[8]);
-        DMux (in=x[9], sel=zx, a=meh, b=x0[9]);
-        DMux (in=x[10], sel=zx, a=meh, b=x0[10]);
-        DMux (in=x[11], sel=zx, a=meh, b=x0[11]);
-        DMux (in=x[12], sel=zx, a=meh, b=x0[12]);
-        DMux (in=x[13], sel=zx, a=meh, b=x0[13]);
-        DMux (in=x[14], sel=zx, a=meh, b=x0[14]);
-        DMux (in=x[15], sel=zx, a=meh, b=x0[15]);
+        // Not x, y?
+        Not16(in=x, out=xNot);
+        Not16(in=y, out=yNot);
+        Mux16(a=x1, b=xNot, sel=nx, out=x2);
+        Mux16(a=y1, b=yNot, sel=ny, out=y2);
+
+        // Bitwise AND or +?
+        And16(a=x2, b=y2, out=andOut);
+        Add16(a=x2, b=y2, out=addOut);
+        Mux16(a=andOut, b=addOut, sel=f, out=fOut);
+
+        // Not out?
+        // Also, set output control bit zr.
+        Not16(in=fOut, out=fOutNot);
+        Mux16(a=fOut, b=fOutNot, sel=no, out=out, out[0..7]=firstHalf, out[8..15]=secondHalf, out[15]=ng);
+
+        // Output control bit zr.
+        Or8Way(in=firstHalf, out=isFirstHalfZero);
+        Or8Way(in=secondHalf, out=isSecondHalfZero);
+        Or(a=isFirstHalfZero, b=isSecondHalfZero, out=isOutNotZero);
+        Not(in=isOutNotZero, out=zr);
 }
