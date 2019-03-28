@@ -1,27 +1,29 @@
 # Boolean Functions and Gate Logic
 
-## Boolean Identities
+---
 
-<img alt="Boolean identities" src="https://imgur.com/rUs5D5J.png" />
+# Boolean Identities
 
-## Constructing a boolean function from a truth table.
+<img alt="Boolean identities" src="https://imgur.com/rUs5D5J.png" width="400px" />
+
+# Constructing a boolean function from a truth table.
 
 You construct a Disjunctive Normal Form formula ([video](https://www.coursera.org/learn/build-a-computer/lecture/zJKs1/unit-1-2-boolean-functions-synthesis)).
 
-## Elementary Logic Gates
+# Elementary Logic Gates
 
-<img alt="elementary logic gates" src="https://i.imgur.com/m6rAR1R.png" />
+<img alt="elementary logic gates" src="https://i.imgur.com/m6rAR1R.png" width="400px" />
 
-### NAND
+## NAND
 
 Definition: (X NAND Y) = NOT(X AND Y)
 
-<img alt="NAND gate" src="https://i.imgur.com/gLKYxiV.png" />
+<img alt="NAND gate" src="https://i.imgur.com/gLKYxiV.png" width="350px" />
 
-#### NOT represented with NAND
+### NOT represented with NAND
 
-NOT(x) = (x NAND x)
+NOT(x) = NAND(x, x)
 
-#### AND represented with NAND
+### AND represented with NAND
 
-(x AND y) = NOT(x NAND y)
+AND(x, y) = NOT(NAND(x, y))
