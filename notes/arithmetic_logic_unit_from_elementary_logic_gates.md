@@ -1,4 +1,4 @@
-# Arithmetic Logical Unit (ALU) from Elementary Logic Gates
+# Arithmetic Logic Unit (ALU) from Elementary Logic Gates
 
 ---
 
