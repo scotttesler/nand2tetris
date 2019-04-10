@@ -23,6 +23,9 @@
     @prev_key
     M=D
 
+    @i
+    M=0
+
     // if no key is pressed, fill all screen registers with 0s.
     @color
     M=0
@@ -34,10 +37,6 @@
     M=-1
 
 (FILL)
-    @i
-    M=0
-
-(FILL_LOOP)
     // Restart on key change.
     @KBD
     D=M
@@ -73,5 +72,5 @@
     @i
     M=M+1
 
-    @FILL_LOOP
+    @FILL
     0;JMP
