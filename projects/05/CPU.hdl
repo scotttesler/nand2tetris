@@ -42,7 +42,7 @@ CHIP CPU {
         Mux16 (a=instruction, b=outAlu, sel=instruction[15], out=outForARegister);
 
         Mux (a=true, b=instruction[5], sel=instruction[15], out=loadARegister);
-        ARegister (in=outForARegister, load=loadARegister, out=outARegister, out=addressM);
+        ARegister (in=outForARegister, load=loadARegister, out=outARegister, out[0..14]=addressM);
 
         // opCode | a-bit | c
         // -------|-------|---
@@ -50,33 +50,101 @@ CHIP CPU {
         //   0    |  1    | 0
         //   1    |  0    | 0
         //   1    |  1    | 1
-        Mux (a=false, b=instruction[12], sel=instruction[15], out=aOrInM);
-        Mux16 (a=outARegister, b=inM, sel=aOrInM, out=aOrMInputToAlu);
+        And (a=instruction[15], b=instruction[12], out=selAOrInM);
+        Mux16 (a=outARegister, b=inM, sel=selAOrInM, out=aOrMInputToAlu);
 
+        Mux (a=true, b=instruction[11], sel=instruction[15], out=zxInputToAlu);
+        Mux (a=true, b=instruction[10], sel=instruction[15], out=nxInputToAlu);
+        Mux (a=false, b=instruction[9], sel=instruction[15], out=zyInputToAlu);
+        Mux (a=false, b=instruction[8], sel=instruction[15], out=nyInputToAlu);
+        Mux (a=false, b=instruction[7], sel=instruction[15], out=fInputToAlu);
+        Mux (a=false, b=instruction[6], sel=instruction[15], out=noInputToAlu);
         ALU (
             x=dInputToAlu,
             y=aOrMInputToAlu,
-            instruction[11],
-            instruction[10],
-            instruction[9],
-            instruction[8],
-            instruction[7],
-            instruction[6],
+            zx=zxInputToAlu,
+            nx=nxInputToAlu,
+            zy=zyInputToAlu,
+            ny=nyInputToAlu,
+            f=fInputToAlu,
+            no=noInputToAlu,
             out=outAlu,
             out=outM,
-            zr=outAluZr,
-            ng=outAluNg
+            zr=zr,
+            ng=ng
         );
+        Not (in=zr, out=notZr);
+        Not (in=ng, out=notNg);
 
         Mux (a=false, b=instruction[4], sel=instruction[15], out=loadDRegister);
         DRegister (in=outAlu, load=loadDRegister, out=dInputToAlu);
 
-        And (a=instruction[3], b=instruction[3], out=writeM);
+        And (a=instruction[15], b=instruction[3], out=writeM);
+
+        // PC
+        // If it's a C-instruction (instruction[15]):
+        //     If (jump bits are 001) and (zr and ng are 0): //
+        //         set load to 1.
+        //     If (jump bits are 010) and (zr is 1): //
+        //         set load to 1.
+        //     If (jump bits are 011) and (ng is 0): //
+        //         set load to 1.
+        //     If (jump bits are 100) and (ng is 1): //
+        //         set load to 1.
+        //     If (jump bits are 101) and (zr is 0): //
+        //         set load to 1.
+        //     If (jump bits are 110) and (zr or ng is 0): //
+        //         set load to 1.
+        //     If (jump bits are 111): //
+        //         set load to 1.
+        //     Else:
+        //         set load to 0.
+
+        DMux8Way (
+            in=instruction[15],
+            sel[2]=instruction[2],
+            sel[1]=instruction[1],
+            sel[0]=instruction[0],
+            a=noJump,
+            b=jumpGt,
+            c=jumpEq,
+            d=jumpGe,
+            e=jumpLt,
+            f=jumpNe,
+            g=jumpLe,
+            h=jumpUnconditionally
+        );
+
+        And (a=jumpGt, b=notZr, out=jumpGtA);
+        And (a=jumpGtA, b=notNg, out=outJumpGt);
+
+        And (a=jumpEq, b=zr, out=outJumpEq);
+
+        And (a=jumpGe, b=notNg, out=outJumpGe);
+
+        And (a=jumpLt, b=ng, out=outJumpLt);
+
+        And (a=jumpNe, b=notZr, out=outJumpNe);
+
+        Or (a=zr, b=ng, out=zrOrNgIsZero);
+        And (a=jumpLe, b=zrOrNgIsZero, out=outJumpLe);
+
+        Or8Way (
+          in[7]=false,
+          in[6]=outJumpGt,
+          in[5]=outJumpEq,
+          in[4]=outJumpGe,
+          in[3]=outJumpLt,
+          in[2]=outJumpNe,
+          in[1]=outJumpLe,
+          in[0]=jumpUnconditionally,
+          out=loadPc
+        );
 
         PC (
             in=outARegister,
-            load=X,
-            inc=X, 
+            load=loadPc,
+            inc=true,
             reset=reset,
             out[0..14]=pc
         );
